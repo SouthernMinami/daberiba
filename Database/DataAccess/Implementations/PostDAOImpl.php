@@ -47,19 +47,20 @@ class PostDAOImpl implements PostDAO
 
         $query =
         <<<SQL
-            INSERT INTO posts (id, parent_id, title, content, path, image_path)
+            INSERT INTO posts (id, parent_id, title, content, path, thumbnail_path, image_path)
             VALUES (?, ?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE id = ?,
             parent_id = VALUES(parent_id),
             title = VALUES(title),
             content = VALUES(content),
             path = VALUES(path),
+            thumbnail_path = VALUES(thumbnail_path),
             image_path = VALUES(image_path)
         SQL;
 
         $result = $mysqli->prepareAndExecute(
             $query,
-            'iissssi',
+            'iisssssi',
             [
                 // idがnullの場合、createのほうを行うことになる
                 // それ以外の場合、ON DUPLICATE KEY UPDATEによってすでに存在するレコードに対してupdateが行われる
@@ -69,6 +70,7 @@ class PostDAOImpl implements PostDAO
                 $postData->getContent(),
                 $postData->getPath(),
                 $postData->getImagePath(),
+                $postData->getThumbnailPath(),
                 // ON DUPLICATE KEY UPDATEのために再度idを指定
                 $postData->getId()
             ],
@@ -94,6 +96,7 @@ class PostDAOImpl implements PostDAO
             $data['content'],
             $data['path'],
             $data['image_path'],
+            $data['thumbnail_path'],
             new DataTimeStamp($data['created_at'], $data['updated_at'])
         );
     }

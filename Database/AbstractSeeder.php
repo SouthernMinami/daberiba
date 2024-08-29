@@ -75,7 +75,7 @@ abstract class AbstractSeeder implements Seeder
             return $columnInfo['column_name'];
         }, $this->tableColumns);
         // created_atカラムを追加
-        $columnNames = array_merge($columnNames, ['created_at']);
+        $columnNames = array_merge($columnNames, ['created_at', 'updated_at']); 
 
         // プレースホルダーの?はcount($row) - 1回繰り返され、最後の?の後にはカンマをつけない
         // そこにbind_paramで値を挿入する
@@ -96,12 +96,12 @@ abstract class AbstractSeeder implements Seeder
         $dataTypes = implode(array_map(function ($columnInfo) {
             return static::AVAILABLE_TYPES[$columnInfo['data_type']];
         }, $this->tableColumns));
-        // created_atのデータ型を追加
-        $dataTypes .= 's';
+        // created_at, updated_atのデータ型を追加
+        $dataTypes .= 'ss';
 
         // 文字の配列（文字列）を取り、それぞれに行の値を挿入する
         // 例：$stmt->bind_param('iss', ...array_values([1, 'John', 'john@example.com'])) は、ステートメントに整数(i)、文字列(s)、文字列(s)を挿入する
-        $row_values = array_merge(array_values($row), [$now]);
+        $row_values = array_merge(array_values($row), [$now, $now]);
         $stmt->bind_param($dataTypes, ...$row_values);
 
         $stmt->execute();

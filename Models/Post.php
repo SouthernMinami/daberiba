@@ -15,6 +15,7 @@ class Post implements Model {
         private ?string $content = null,
         private ?string $path = null,
         private ?string $image_path = null,
+        private ?string $thumbnail_path = null,
         private ?DataTimeStamp $timeStamp = null
     ){}
 
@@ -76,6 +77,16 @@ class Post implements Model {
     public function setImagePath(?string $image_path): void
     {
         $this->image_path = $image_path;
+    }
+
+    public function getThumbnailPath(): ?string
+    {
+        return $this->thumbnail_path;
+    }
+
+    public function setThumbnailPath(?string $thumbnail_path): void
+    {
+        $this->thumbnail_path = $thumbnail_path;
     }
 
     public function getTimeStamp(): ?DataTimeStamp
