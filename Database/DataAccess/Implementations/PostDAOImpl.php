@@ -115,7 +115,7 @@ class PostDAOImpl implements PostDAO
     {
         $mysqli = DatabaseManager::getMysqliConnection();
 
-        $query = "SELECT * FROM posts LIMIT ?, ? WHERE parent_id IS NULL";
+        $query = "SELECT * FROM posts WHERE parent_id < 1 LIMIT ?, ?";
 
         $results = $mysqli->prepareAndFetchAll($query, 'ii', [$offset, $limit]);
 
@@ -131,6 +131,5 @@ class PostDAOImpl implements PostDAO
         $results = $mysqli->prepareAndFetchAll($query, 'iii', [$postData->getId(), $offset, $limit]);
 
         return $results === null ? [] : $this->resultToPosts($results);
-    }
- 
+    }  
 }

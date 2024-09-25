@@ -24,7 +24,6 @@ $routes = include 'Routing/routes.php';
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 // 先頭のスラッシュを削除
 $path = ltrim($path, '/');
-$path = $path === '' ? 'random/part' : $path;
 
 if (isset($routes[$path])) {
     $renderer = $routes[$path]();
